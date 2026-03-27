@@ -1,0 +1,69 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: f1_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-f1_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-f1_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-f1_dwh}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./F1_Project/warehouse:/app/F1_Project/warehouse
+      - ./F1_Project/data_processed:/app/F1_Project/data_processed
+      - ./F1_Project/warehouse/sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-f1_admin} -d ${POSTGRES_DB:-f1_dwh}",
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - f1_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: f1_app
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB:-f1_dwh}
+      DB_USER: ${POSTGRES_USER:-f1_admin}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-f1_pass}
+      DB_SCHEMA: ${DB_SCHEMA:-f1_dw}
+      RAW_DIR: /app/F1_Project/data_raw/Championship1950_2024
+      PROC_DIR: /app/F1_Project/data_processed
+      MODELS_DIR: /app/F1_Project/models
+      DASH_PORT: ${DASH_PORT:-8050}
+      DASH_DEBUG: ${DASH_DEBUG:-false}
+    ports:
+      - "${DASH_PORT:-8050}:8050"
+      - "${JUPYTER_PORT:-8888}:8888"
+    volumes:
+      - ./F1_Project:/app/F1_Project
+      - ./F1_Project/models:/app/F1_Project/models
+    working_dir: /app
+    command: tail -f /dev/null
+    networks:
+      - f1_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  f1_network:
+    driver: bridge

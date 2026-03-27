@@ -1,0 +1,7 @@
+.env
+F1_Project/data_raw/
+F1_Project/data_processed/
+!F1_Project/data_raw/.gitkeep
+!F1_Project/data_processed/.gitkeep
+backups/
+__pycache__/

@@ -125,8 +125,11 @@ cd BDM_TP_Final_F1
 # 2. Configurar variables de entorno
 cp .env.example .env
 
-# 3. Levantar los contenedores
+# 3. Levantar los contenedores y crea estructura de la DW
 make up
+
+# 4. Aplicamos la fase 1 de limpieza y procesamiento de datos
+make etl_clean
 ```
 
 ### Comandos disponibles
@@ -140,7 +143,7 @@ make rebuild       # Recrea el entorno desde cero
 
 ---
 
-## 📚 Referencias bibliográficas
+## Referencias bibliográficas
 
 1. Patil, A., & Jain, N. (2022). *A Data-Driven Analysis of Formula 1 Car Races Outcome*. AICS 2022. Springer.
 2. van Kesteren, E.-J., & Bergkamp, T. (2022). *Bayesian Analysis of Formula One Race Results: Disentangling Driver Skill and Constructor Advantage*. arXiv.

@@ -5,3 +5,4 @@ F1_Project/data_processed/
 !F1_Project/data_processed/.gitkeep
 backups/
 __pycache__/
+SPEC.md

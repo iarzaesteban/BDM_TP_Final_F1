@@ -97,8 +97,6 @@ db-psql:
 	@echo "$(GREEN)▶ Abriendo consola psql...$(RESET)"
 	$(PSQL)
 
-
-
 #  BASE DE DATOS - DDL
 
 ## Crea el schema f1_dw
@@ -157,10 +155,22 @@ db-restore:
 	@echo "$(GREEN)✔ Restauración completada.$(RESET)"
 
 
-# Fases
+# Fases 
 
-## Fase 1: limpiezamos CSVs crudos
+## ETL
+## Fase 1: limpiamos CSVs crudos
 etl-clean:
 	@echo "$(GREEN)▶ Ejecutando ETL - Fase 1: Limpieza...$(RESET)"
 	$(PYTHON) $(SCRIPTS_DIR)/scripts/etl_clean.py
 	@echo "$(GREEN)✔ Limpieza completada. Archivos en data_processed/$(RESET)"
+
+## Fase 2: cargamos los datos limpios al DW
+etl-load:
+	@echo "$(GREEN)▶ Ejecutando ETL - Fase 2: Carga al DW...$(RESET)"
+	$(PYTHON) $(SCRIPTS_DIR)/scripts/etl_load_dw.py
+	@echo "$(GREEN)✔ Carga al DW completada.$(RESET)"
+	@make db-info
+
+## ETL completo: limpiamos + cargamos (fase 1 y 2)
+etl-full: etl-clean etl-load
+	@echo "$(GREEN)✔ ETL completo finalizado.$(RESET)"

@@ -17,6 +17,7 @@ import pandas as pd
 from datetime import date, timedelta
 from sqlalchemy import create_engine
 
+
 DB_USER = os.getenv("DB_USER", "f1_admin")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "f1_pass")
 DB_HOST = os.getenv("DB_HOST", "postgres")
@@ -28,12 +29,18 @@ PROC_DIR = os.getenv("PROC_DIR", "/app/F1_Project/data_processed")
 
 
 def get_engine():
+    """
+    Nos conectamos a la DB
+    """
     url = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     engine = create_engine(url, echo=False)
     return engine
 
 
 def load_clean(name: str) -> pd.DataFrame:
+    """
+    Leemos el .csv de acuerdo con al name
+    """
     path = os.path.join(PROC_DIR, f"{name}_clean.csv")
     df = pd.read_csv(path, low_memory=False)
     df = df.replace(["\\N", "None", "nan", "NaN", ""], np.nan)
@@ -48,7 +55,10 @@ def safe_int(val):
 
 
 def time_to_seconds(t):
-    """'1:23.456' → 83.456"""
+    """
+    Convertimos la hora a segundos
+    '1:23.456' → 83.456
+    """
     try:
         if pd.isna(t):
             return None
@@ -105,7 +115,7 @@ def load_dim_date(engine):
         method="multi",
         chunksize=1000,
     )
-    print(f"   {len(df)} fechas cargadas.")
+    print(f"{len(df)} fechas cargadas.")
 
 
 def load_dim_circuit(engine):
@@ -133,7 +143,7 @@ def load_dim_circuit(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(df)} circuitos cargados.")
+    print(f"{len(df)} circuitos cargados.")
 
 
 def load_dim_driver(engine):
@@ -163,7 +173,7 @@ def load_dim_driver(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(df)} pilotos cargados.")
+    print(f"{len(df)} pilotos cargados.")
 
 
 def load_dim_constructor(engine):
@@ -187,7 +197,7 @@ def load_dim_constructor(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(df)} constructores cargados.")
+    print(f"{len(df)} constructores cargados.")
 
 
 STATUS_GROUPS = {
@@ -230,14 +240,14 @@ def load_dim_status(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(df)} estados cargados.")
+    print(f"{len(df)} estados cargados.")
 
 
 def load_dim_race(engine):
     print(">> DimRace ...")
     races = load_clean("races")
 
-    # Obtener mapeos de claves
+    # Obtenemos mapeos de claves
     with engine.connect() as con:
         date_map = pd.read_sql("SELECT date_key, full_date FROM f1_dw.DimDate", con)
         date_map["full_date"] = pd.to_datetime(date_map["full_date"]).dt.date
@@ -251,7 +261,9 @@ def load_dim_race(engine):
     races = races.merge(
         date_map, left_on="date_parsed", right_on="full_date", how="left"
     )
-    races = races.merge(circ_map, on="circuit_id", how="left")
+    races = races.merge(
+        circ_map, left_on="circuitid", right_on="circuit_id", how="left"
+    )
 
     cols = {
         "raceid": "race_id",
@@ -278,7 +290,7 @@ def load_dim_race(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(out)} carreras cargadas.")
+    print(f"{len(out)} carreras cargadas.")
 
 
 def load_fact_race_results(engine):
@@ -350,7 +362,7 @@ def load_fact_race_results(engine):
 
     out = out[[c for c in keep if c in out.columns]]
 
-    # Convertir numéricos
+    # Convertimos lso numéricos
     for col in [
         "grid_position",
         "finish_position",
@@ -364,7 +376,7 @@ def load_fact_race_results(engine):
             out[col] = pd.to_numeric(out[col], errors="coerce")
 
     out.to_sql(
-        "factracerresults",
+        "factraceresults",
         engine,
         schema=DB_SCHEMA,
         if_exists="append",
@@ -372,7 +384,7 @@ def load_fact_race_results(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(out)} resultados cargados.")
+    print(f"{len(out)} resultados cargados.")
 
 
 def load_fact_qualifying(engine):
@@ -427,7 +439,7 @@ def load_fact_qualifying(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(out)} registros de qualifying cargados.")
+    print(f"{len(out)} registros de qualifying cargados.")
 
 
 def load_fact_pit_stops(engine):
@@ -480,20 +492,21 @@ def load_fact_pit_stops(engine):
         method="multi",
         chunksize=500,
     )
-    print(f"   {len(out)} pit stops cargados.")
+    print(f"{len(out)} pit stops cargados.")
 
 
 if __name__ == "__main__":
     engine = get_engine()
 
     print("=" * 55)
-    print("  ETL LOAD - F1 Data Warehouse")
+    print("ETL LOAD - F1 Data Warehouse")
     print("=" * 55)
-    print(f"  Base de datos : {DB_NAME}")
-    print(f"  Schema        : {DB_SCHEMA}")
-    print(f"  Datos limpios : {PROC_DIR}")
+    print(f"Base de datos : {DB_NAME}")
+    print(f"Schema        : {DB_SCHEMA}")
+    print(f"Datos limpios : {PROC_DIR}")
     print("=" * 55)
 
+    # Primero tratamos las dimensiones, dspués los hechos
     load_dim_date(engine)
     load_dim_circuit(engine)
     load_dim_driver(engine)
@@ -504,5 +517,5 @@ if __name__ == "__main__":
     load_fact_qualifying(engine)
     load_fact_pit_stops(engine)
 
-    print("\n✅ Carga completa al Data Warehouse.")
-    print(f"   Vista disponible: {DB_SCHEMA}.vw_race_analysis")
+    print("Carga completa al Data Warehouse.")
+    print(f"Vista disponible: {DB_SCHEMA}.vw_race_analysis")

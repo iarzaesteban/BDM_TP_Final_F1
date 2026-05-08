@@ -196,6 +196,7 @@ CREATE OR REPLACE VIEW vw_race_analysis AS
 SELECT
 
     fr.result_id,
+    fr.race_key,
     dr.year,
     dr.round,
     dr.race_name,
@@ -204,6 +205,7 @@ SELECT
     ci.circuit_name,
     ci.country             AS circuit_country,
 
+    dv.driver_key,
     dv.full_name           AS driver_name,
     dv.nationality         AS driver_nationality,
 

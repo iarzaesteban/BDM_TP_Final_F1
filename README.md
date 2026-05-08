@@ -9,6 +9,21 @@ Licenciatura en Sistemas de Información · Plan 17.13
 
 ---
 
+## Estado actual del proyecto
+
+| Fase | Descripción | Estado |
+|---|---|---|
+| Fase 0 | Configuración del entorno (Docker, PostgreSQL, Python) | ✅ Completa |
+| Fase 1 | ETL — Limpieza y preprocesamiento (13 CSVs, 26.759 registros) | ✅ Completa |
+| Fase 2 | Data Warehouse — Esquema estrella, carga y vistas analíticas | ✅ Completa |
+| Fase 3 | EDA — Análisis exploratorio, 14 visualizaciones | ✅ Completa |
+| Fase 4 | Modelado predictivo (ML) | 🔜 En progreso |
+| Fase 5 | Dashboard interactivo (Dash) | 🔜 Pendiente |
+
+*Última actualización: mayo 2026*
+
+---
+
 ## Descripción del proyecto
 
 Este trabajo propone el desarrollo de una solución analítica integral sobre datos históricos de la Fórmula 1 (1950–2024). A partir de la construcción de un **Data Warehouse** con esquema estrella sobre PostgreSQL, se implementa un pipeline completo que incluye ETL, análisis exploratorio, modelado predictivo con ranking de pilotos y un dashboard interactivo desarrollado con Dash (Python).

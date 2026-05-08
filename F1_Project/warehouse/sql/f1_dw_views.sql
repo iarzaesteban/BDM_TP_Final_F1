@@ -12,12 +12,14 @@ SET search_path TO f1_dw;
 CREATE OR REPLACE VIEW vw_race_analysis AS
 SELECT
     fr.result_id,
+    dr.race_key,
     dr.year,
     dr.round,
     dr.race_name,
     dc.full_date           AS race_date,
     ci.circuit_name,
     ci.country             AS circuit_country,
+    dv.driver_key,
     dv.full_name           AS driver_name,
     dv.nationality         AS driver_nationality,
     co.constructor_name,

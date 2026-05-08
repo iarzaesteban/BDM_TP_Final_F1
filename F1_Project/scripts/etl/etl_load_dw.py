@@ -320,7 +320,7 @@ def load_fact_race_results(engine):
     )
     df = df.merge(sta_map, left_on="statusid", right_on="status_id", how="left")
 
-    # Tiempo vuelta rápida a segundos
+    # Tiempo vuelta ráida a segundos
     if "fastestlaptime" in df.columns:
         df["fastest_lap_time_s"] = df["fastestlaptime"].apply(time_to_seconds)
 

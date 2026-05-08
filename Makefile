@@ -17,8 +17,9 @@ POSTGRES      = f1_postgres
 APP_EXEC      = $(COMPOSE) exec app
 PSQL          = $(COMPOSE) exec postgres psql -U $(POSTGRES_USER) -d $(POSTGRES_DB)
 PYTHON        = $(APP_EXEC) python
-SCRIPTS_DIR   = /app/F1_Project
-SQL_DIR       = $(SCRIPTS_DIR)/warehouse/sql
+APP_DIR       = /app/F1_Project/
+SCRIPTS_DIR   = $(APP_DIR)/scripts
+SQL_DIR       = $(APP_DIR)/warehouse/sql
 
 # Colores para la terminal
 GREEN  = \033[0;32m
@@ -27,7 +28,10 @@ CYAN   = \033[0;36m
 RESET  = \033[0m
 
 .PHONY: help up down rebuild restart logs status \
-        etl-clean
+        etl-clean etl-load etl-full \
+        db-create-schema db-create-tables db-create-views db-create-all db-reset db-info db-backup db-restore \
+        shell-app shell-db db-psql logs-app logs-db \
+        eda
 
 
 #  CONTENEDORES
@@ -161,16 +165,28 @@ db-restore:
 ## Fase 1: limpiamos CSVs crudos
 etl-clean:
 	@echo "$(GREEN)▶ Ejecutando ETL - Fase 1: Limpieza...$(RESET)"
-	$(PYTHON) $(SCRIPTS_DIR)/scripts/etl_clean.py
+	$(PYTHON) $(SCRIPTS_DIR)/etl/etl_clean.py
 	@echo "$(GREEN)✔ Limpieza completada. Archivos en data_processed/$(RESET)"
 
 ## Fase 2: cargamos los datos limpios al DW
 etl-load:
 	@echo "$(GREEN)▶ Ejecutando ETL - Fase 2: Carga al DW...$(RESET)"
-	$(PYTHON) $(SCRIPTS_DIR)/scripts/etl_load_dw.py
+	$(PYTHON) $(SCRIPTS_DIR)/etl/etl_load_dw.py
 	@echo "$(GREEN)✔ Carga al DW completada.$(RESET)"
 	@make db-info
 
 ## ETL completo: limpiamos + cargamos (fase 1 y 2)
 etl-full: etl-clean etl-load
 	@echo "$(GREEN)✔ ETL completo finalizado.$(RESET)"
+
+## EDA
+
+## Ejecuta el script de EDA completo
+eda:
+	@echo "$(GREEN)▶ Ejecutando Análisis Exploratorio (EDA)...$(RESET)"
+	$(PYTHON) $(SCRIPTS_DIR)/eda/eda_main.py
+	@echo "$(GREEN)✔ EDA completado. Ver resultados en F1_Project/eda/outputs/ (14 PNGs + summary)$(RESET)"
+
+
+## ML (próxima fase — en desarrollo)
+# Los targets ml-train, ml-evaluate, ml-full se agregarán en la Fase 4

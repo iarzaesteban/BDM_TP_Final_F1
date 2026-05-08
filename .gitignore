@@ -1,8 +1,21 @@
+# Entorno y credenciales
 .env
+
+# Datos crudos y procesados (no se versionan — son pesados)
 F1_Project/data_raw/
 F1_Project/data_processed/
 !F1_Project/data_raw/.gitkeep
 !F1_Project/data_processed/.gitkeep
-backups/
+
+# Artefactos de Python
 __pycache__/
-SPEC.md
+*.pyc
+*.pyo
+*.pyd
+
+# Modelos entrenados y artefactos de ML
+*.pkl
+*.joblib
+
+# Backups de base de datos
+backups/

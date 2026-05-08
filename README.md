@@ -134,26 +134,41 @@ Preguntas de investigación:
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/tu_usuario/BDM_TP_Final_F1.git
+git clone https://github.com/iarzaesteban/BDM_TP_Final_F1.git
 cd BDM_TP_Final_F1
 
 # 2. Configurar variables de entorno
 cp .env.example .env
 
-# 3. Levantar los contenedores y crea estructura de la DW
+# 3. Levantar los contenedores (PostgreSQL + Python)
 make up
 
-# 4. Aplicamos la fase 1 de limpieza y procesamiento de datos
-make etl_clean
+# 4. Crear el esquema del Data Warehouse (tablas, índices, vistas)
+make db-create-all
+
+# 5. Ejecutar ETL completo: limpieza de CSVs + carga al DW
+make etl-full
+
+# 6. Generar el análisis exploratorio (14 visualizaciones + resumen)
+make eda
 ```
 
 ### Comandos disponibles
 
 ```bash
-make help          # Lista todos los comandos disponibles
-make up            # Levanta todos los contenedores
-make rebuild       # Recrea el entorno desde cero
+make help           # Lista todos los comandos disponibles
+make up             # Levanta los contenedores (PostgreSQL + Python)
+make down           # Detiene y elimina los contenedores
+make rebuild        # Recrea el entorno desde cero
 
+make db-create-all  # Crea el schema f1_dw: tablas, índices y vistas
+make db-info        # Muestra tablas con conteo de filas
+
+make etl-clean      # Fase 1: limpieza y preprocesamiento de los 13 CSVs
+make etl-load       # Fase 2: carga de CSVs limpios al Data Warehouse
+make etl-full       # Fase 1 + Fase 2 en secuencia
+
+make eda            # Fase 3: genera 14 visualizaciones + eda_summary.txt
 ```
 
 ---

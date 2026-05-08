@@ -1,11 +1,21 @@
 # Entorno y credenciales
 .env
 
-# Datos crudos y procesados (no se versionan — son pesados)
-F1_Project/data_raw/
-F1_Project/data_processed/
+# Datos crudos (no se versionan — son pesados)
+F1_Project/data_raw/*
 !F1_Project/data_raw/.gitkeep
+
+# Datos procesados — se ignora el contenido
+F1_Project/data_processed/*
 !F1_Project/data_processed/.gitkeep
+
+# Outputs del EDA
+!F1_Project/data_processed/eda/
+F1_Project/data_processed/eda/*
+!F1_Project/data_processed/eda/outputs/
+F1_Project/data_processed/eda/outputs/*
+!F1_Project/data_processed/eda/outputs/*.png
+!F1_Project/data_processed/eda/outputs/eda_summary.txt
 
 # Artefactos de Python
 __pycache__/

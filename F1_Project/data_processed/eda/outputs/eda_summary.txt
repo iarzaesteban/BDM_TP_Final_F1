@@ -1,0 +1,27 @@
+=======================================================
+  EDA - F1 Data Warehouse (1950-2024)
+=======================================================
+Total registros (piloto x carrera):  26,759
+Temporadas cubiertas:                75 (1950–2024)
+Circuitos únicos:                    77
+Pilotos únicos:                      861
+Constructores únicos:                211
+Carreras totales:                    1125
+Registros con podio:                 3,396 (21.5%)
+Registros con pit stop data:         5,575
+
+── Nulos por columna clave ──
+  grid_position                      0  (0.0%)
+  finish_position               10,953  (40.9%)
+  quali_position                16,265  (60.8%)
+  best_quali_time_s             16,265  (60.8%)
+  total_stops                   21,184  (79.2%)
+  points                             0  (0.0%)
+
+── Ranking Analysis ──
+  Carreras analizadas:                577
+  Spearman mediano (grilla->finish):   0.788
+  Spearman medio   (grilla->finish):   0.735
+  % carreras con correlacion sig.:     87.3%  (p < 0.05)
+  Interpretacion: este es el baseline que el modelo ML
+  debe superar en Spearman rank correlation.

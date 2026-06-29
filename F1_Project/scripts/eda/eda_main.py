@@ -1,26 +1,3 @@
-"""
-EDA - Análisis Exploratorio de Datos | F1 Data Warehouse (1950-2024)
-====================================================================
-TP Final - Bases de Datos Masivas - UNLu
-
-¿Qué es el EDA?
-    El Análisis Exploratorio de Datos (EDA) es el proceso de examinar,
-    resumir y visualizar un dataset antes de aplicar modelos predictivos.
-    Permite entender la distribución de variables, detectar outliers,
-    identificar correlaciones y validar la calidad de los datos del DW.
-
-Preguntas de investigación:
-  1. ¿Qué factores influyen más en llegar al podio?
-  2. ¿Cómo evolucionó el dominio de equipos y pilotos a lo largo de las décadas?
-  3. ¿Qué tan determinante es la posición de clasificación (grilla) sobre el resultado final?
-  4. ¿Cómo impactan los pit stops en el resultado?
-  5. Matriz de correlación general entre variables numéricas
-  6. Análisis de ranking: grilla predicha vs. posición real
-
-Salida:
-    F1_Project/data_processed/eda/outputs/  →  15 PNGs + eda_summary.txt
-"""
-
 import os
 import warnings
 import numpy as np
@@ -181,7 +158,7 @@ def save(fig, name: str):
 
 
 def section(title: str):
-    print(f"\n{'=' * 55}\n  {title}\n{'=' * 55}")
+    print(f"\n{title}")
 
 
 def eda_overview(df: pd.DataFrame, summary_lines: list):
@@ -220,7 +197,6 @@ def eda_overview(df: pd.DataFrame, summary_lines: list):
     summary_lines.extend(lines)
 
 
-# FACTORES QUE INFLUYEN EN EL PODIO
 def eda_podium_factors(df: pd.DataFrame):
     section("1. Factores que influyen en llegar al podio")
 
@@ -347,7 +323,6 @@ def eda_podium_factors(df: pd.DataFrame):
     print("Seccion 1 completada.")
 
 
-# DOMINIO HISTÓRICO POR DÉCADAS
 def eda_dominio_decadas(df: pd.DataFrame):
     section("2. Dominio de equipos y pilotos por decadas")
 
@@ -470,7 +445,6 @@ def eda_dominio_decadas(df: pd.DataFrame):
     print("Seccion 2 completada.")
 
 
-# GRILLA VS RESULTADO FINAL
 def eda_grilla_vs_resultado(df: pd.DataFrame, quali_df: pd.DataFrame):
     section("3. Posicion de grilla vs resultado final")
 
@@ -613,7 +587,6 @@ def eda_grilla_vs_resultado(df: pd.DataFrame, quali_df: pd.DataFrame):
     print("Seccion 3 completada.")
 
 
-# IMPACTO DE LOS PIT STOPS
 def eda_pit_stops(df: pd.DataFrame, pits_df: pd.DataFrame):
     section("4. Impacto de los pit stops en el resultado")
 
@@ -739,7 +712,6 @@ def eda_pit_stops(df: pd.DataFrame, pits_df: pd.DataFrame):
     print("Seccion 4 completada.")
 
 
-# CORRELACIÓN GENERAL (HEATMAP)
 def eda_correlacion(df: pd.DataFrame):
     section("5. Matriz de correlacion entre variables numericas")
 
@@ -784,14 +756,8 @@ def eda_correlacion(df: pd.DataFrame):
     print("Seccion 5 completada.")
 
 
-# ANÁLISIS DE RANKING
 def eda_ranking_analysis(ranking_df: pd.DataFrame, summary_lines: list):
-    """
-    Analiza que tan bien la posicion de grilla (proxy del modelo mas simple posible)
-    predice el ranking final de pilotos dentro de cada carrera.
-    Establece el baseline de Spearman que el modelo ML debera superar.
-    """
-    section("6. Analisis de ranking: grilla vs. posicion real (puente hacia ML)")
+    section("6. Analisis de ranking: grilla vs. posicion real")
 
     df = ranking_df.dropna(subset=["grid_position", "finish_position"]).copy()
 
@@ -932,11 +898,7 @@ def eda_ranking_analysis(ranking_df: pd.DataFrame, summary_lines: list):
 
 
 def main():
-    print("\n" + "=" * 55)
     print("EDA - F1 Data Warehouse (1950-2024)")
-    print("TP Final - Bases de Datos Masivas - UNLu")
-    print("=" * 55)
-
     engine = get_engine()
     dfs = load_data(engine)
     main_df = dfs["main"]
@@ -971,12 +933,7 @@ def main():
     with open(summary_path, "w", encoding="utf-8") as f:
         f.write("\n".join(summary_lines))
 
-    print(f"\n{'=' * 55}")
-    print("EDA completado.")
-    print(f"Resultados en: {OUT_DIR}")
-    print("Graficos generados: 15 PNGs")
-    print("Resumen estadistico: eda_summary.txt")
-    print(f"{'=' * 55}\n")
+    print(f"EDA completado. Resultados en: {OUT_DIR}")
 
 
 if __name__ == "__main__":

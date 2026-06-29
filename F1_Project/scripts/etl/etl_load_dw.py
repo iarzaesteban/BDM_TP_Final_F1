@@ -1,16 +1,3 @@
-"""
-ETL Final - Carga al Data Warehouse F1
-=======================================
-Carga los CSV limpios (output de la Fase 1) al esquema f1_dw en PostgreSQL.
-
-Requisitos:
-    pip install pandas sqlalchemy psycopg2-binary tqdm
-
-Uso:
-    Ajustar las variables de conexión en la sección CONFIG y ejecutar:
-    python etl_load_dw.py
-"""
-
 import os
 import numpy as np
 import pandas as pd
@@ -29,18 +16,12 @@ PROC_DIR = os.getenv("PROC_DIR", "/app/F1_Project/data_processed")
 
 
 def get_engine():
-    """
-    Nos conectamos a la DB
-    """
     url = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     engine = create_engine(url, echo=False)
     return engine
 
 
 def load_clean(name: str) -> pd.DataFrame:
-    """
-    Leemos el .csv de acuerdo con al name
-    """
     path = os.path.join(PROC_DIR, f"{name}_clean.csv")
     df = pd.read_csv(path, low_memory=False)
     df = df.replace(["\\N", "None", "nan", "NaN", ""], np.nan)
@@ -55,10 +36,6 @@ def safe_int(val):
 
 
 def time_to_seconds(t):
-    """
-    Convertimos la hora a segundos
-    '1:23.456' → 83.456
-    """
     try:
         if pd.isna(t):
             return None
@@ -498,15 +475,9 @@ def load_fact_pit_stops(engine):
 if __name__ == "__main__":
     engine = get_engine()
 
-    print("=" * 55)
-    print("ETL LOAD - F1 Data Warehouse")
-    print("=" * 55)
-    print(f"Base de datos : {DB_NAME}")
-    print(f"Schema        : {DB_SCHEMA}")
-    print(f"Datos limpios : {PROC_DIR}")
-    print("=" * 55)
+    print(f"ETL Load → {DB_NAME}/{DB_SCHEMA}")
 
-    # Primero tratamos las dimensiones, dspués los hechos
+    # Primero las dimensiones, después los hechos
     load_dim_date(engine)
     load_dim_circuit(engine)
     load_dim_driver(engine)

@@ -31,7 +31,8 @@ RESET  = \033[0m
         etl-clean etl-load etl-full \
         db-create-schema db-create-tables db-create-views db-create-all db-reset db-info db-backup db-restore \
         shell-app shell-db db-psql logs-app logs-db \
-        eda
+        eda \
+        ml-train ml-evaluate ml-full
 
 
 #  CONTENEDORES
@@ -188,5 +189,20 @@ eda:
 	@echo "$(GREEN)✔ EDA completado. Ver resultados en F1_Project/eda/outputs/ (14 PNGs + summary)$(RESET)"
 
 
-## ML (próxima fase — en desarrollo)
-# Los targets ml-train, ml-evaluate, ml-full se agregarán en la Fase 4
+## ML
+
+## Fase 4: entrena los modelos predictivos
+ml-train:
+	@echo "$(GREEN)▶ Entrenando modelos ML...$(RESET)"
+	$(PYTHON) $(SCRIPTS_DIR)/ml/train.py
+	@echo "$(GREEN)✔ Modelos entrenados. Artefactos en F1_Project/models/$(RESET)"
+
+## Fase 4: evalúa modelos y genera visualizaciones
+ml-evaluate:
+	@echo "$(GREEN)▶ Evaluando modelos ML...$(RESET)"
+	$(PYTHON) $(SCRIPTS_DIR)/ml/evaluate.py
+	@echo "$(GREEN)✔ Evaluación completada. Ver F1_Project/data_processed/ml/outputs/$(RESET)"
+
+## ML completo: entrena + evalúa
+ml-full: ml-train ml-evaluate
+	@echo "$(GREEN)✔ ML completo finalizado.$(RESET)"

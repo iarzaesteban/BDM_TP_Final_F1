@@ -17,6 +17,14 @@ F1_Project/data_processed/eda/outputs/*
 !F1_Project/data_processed/eda/outputs/*.png
 !F1_Project/data_processed/eda/outputs/eda_summary.txt
 
+# Outputs del ML
+!F1_Project/data_processed/ml/
+F1_Project/data_processed/ml/*
+!F1_Project/data_processed/ml/ml_report.md
+!F1_Project/data_processed/ml/outputs/
+F1_Project/data_processed/ml/outputs/*
+!F1_Project/data_processed/ml/outputs/*.png
+
 # Artefactos de Python
 __pycache__/
 *.pyc

@@ -1,5 +1,5 @@
-# Dependencias — Fase 1 (ETL) + Fase 2 (DW) + Fase 3 (EDA)
-# Última actualización: mayo 2026
+# Dependencias — Fases 1-4 (ETL, DW, EDA, ML)
+# Última actualización: junio 2026
 
 # Base de datos
 sqlalchemy==2.0.36
@@ -10,9 +10,16 @@ alembic==1.14.0
 pandas==2.2.3
 numpy==1.26.4
 
-# Visualización (EDA)
+# Visualización (EDA + ML)
 matplotlib==3.9.2
 seaborn==0.13.2
+
+# Machine Learning
+scipy==1.13.1
+scikit-learn==1.5.2
+imbalanced-learn==0.12.4
+xgboost==2.1.1
+joblib==1.4.2
 
 # Utilidades
 python-dotenv==1.0.1

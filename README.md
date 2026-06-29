@@ -17,10 +17,10 @@ Licenciatura en Sistemas de Información · Plan 17.13
 | Fase 1 | ETL — Limpieza y preprocesamiento (13 CSVs, 26.759 registros) | ✅ Completa |
 | Fase 2 | Data Warehouse — Esquema estrella, carga y vistas analíticas | ✅ Completa |
 | Fase 3 | EDA — Análisis exploratorio, 14 visualizaciones | ✅ Completa |
-| Fase 4 | Modelado predictivo (ML) | 🔜 En progreso |
+| Fase 4 | Modelado predictivo (ML) | ✅ Completa |
 | Fase 5 | Dashboard interactivo (Dash) | 🔜 Pendiente |
 
-*Última actualización: mayo 2026*
+*Última actualización: junio 2026*
 
 ---
 
@@ -113,9 +113,11 @@ Preguntas de investigación:
 ### Fase 4 — Modelado Predictivo
 - **Variable objetivo:** probabilidad de podio por piloto (`P(podio | condiciones)`)
 - **Enfoque:** ranking de pilotos por carrera ordenado por probabilidad predicha
-- **Modelos:** Regresión Logística (baseline), Random Forest, SVM, XGBoost
+- **Modelos:** Regresión Logística, Random Forest, SVM RBF, XGBoost
 - **Evaluación:** ROC-AUC, F1-Score, Spearman rank correlation (ranking predicho vs. real)
-- **Split:** temporal — entrenamiento ≤2021, test 2022–2024
+- **Split:** temporal — entrenamiento 1994–2021, test 2022–2024
+- **Baseline:** Spearman = 0.629 (posición de grilla sola, test set 2022–2024)
+- **Mejor resultado:** Random Forest — ROC-AUC=0.913, F1=0.650, Spearman=0.680
 
 ### Fase 5 — Dashboard Interactivo
 - Filtros por temporada, piloto y constructor
@@ -169,6 +171,10 @@ make etl-load       # Fase 2: carga de CSVs limpios al Data Warehouse
 make etl-full       # Fase 1 + Fase 2 en secuencia
 
 make eda            # Fase 3: genera 14 visualizaciones + eda_summary.txt
+
+make ml-train       # Fase 4: entrena los 4 modelos predictivos
+make ml-evaluate    # Fase 4: evalúa modelos y genera 6 visualizaciones
+make ml-full        # Fase 4: entrena + evalúa en secuencia
 ```
 
 ---

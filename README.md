@@ -18,7 +18,7 @@ Licenciatura en Sistemas de Información · Plan 17.13
 | Fase 2 | Data Warehouse — Esquema estrella, carga y vistas analíticas | ✅ Completa |
 | Fase 3 | EDA — Análisis exploratorio, 14 visualizaciones | ✅ Completa |
 | Fase 4 | Modelado predictivo (ML) | ✅ Completa |
-| Fase 5 | Dashboard interactivo (Dash) | 🔜 Pendiente |
+| Fase 5 | Dashboard interactivo (Dash + Plotly) | ✅ Completa |
 
 *Última actualización: junio 2026*
 
@@ -175,6 +175,9 @@ make eda            # Fase 3: genera 14 visualizaciones + eda_summary.txt
 make ml-train       # Fase 4: entrena los 4 modelos predictivos
 make ml-evaluate    # Fase 4: evalúa modelos y genera 6 visualizaciones
 make ml-full        # Fase 4: entrena + evalúa en secuencia
+
+make dash           # Fase 5: inicia el dashboard en localhost:8050
+make dash-bg        # Fase 5: inicia el dashboard en segundo plano
 ```
 
 ---

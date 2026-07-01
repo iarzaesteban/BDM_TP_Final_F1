@@ -32,7 +32,8 @@ RESET  = \033[0m
         db-create-schema db-create-tables db-create-views db-create-all db-reset db-info db-backup db-restore \
         shell-app shell-db db-psql logs-app logs-db \
         eda \
-        ml-train ml-evaluate ml-full
+        ml-train ml-evaluate ml-full \
+        dash dash-bg
 
 
 #  CONTENEDORES
@@ -206,3 +207,14 @@ ml-evaluate:
 ## ML completo: entrena + evalúa
 ml-full: ml-train ml-evaluate
 	@echo "$(GREEN)✔ ML completo finalizado.$(RESET)"
+
+
+## Dashboard
+
+## Inicia el dashboard en primer plano (Ctrl+C para salir)
+dash:
+	$(APP_EXEC) python $(APP_DIR)/dashboard/app.py
+
+## Inicia el dashboard en segundo plano
+dash-bg:
+	$(COMPOSE) exec -d app python $(APP_DIR)/dashboard/app.py

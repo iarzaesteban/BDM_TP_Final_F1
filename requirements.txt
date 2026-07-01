@@ -1,4 +1,4 @@
-# Dependencias — Fases 1-4 (ETL, DW, EDA, ML)
+# Dependencias — Fases 1-5 (ETL, DW, EDA, ML, Dashboard)
 # Última actualización: junio 2026
 
 # Base de datos
@@ -20,6 +20,11 @@ scikit-learn==1.5.2
 imbalanced-learn==0.12.4
 xgboost==2.1.1
 joblib==1.4.2
+
+# Dashboard
+dash==2.18.1
+dash-bootstrap-components==1.6.0
+plotly==5.24.1
 
 # Utilidades
 python-dotenv==1.0.1

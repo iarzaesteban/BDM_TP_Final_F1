@@ -165,9 +165,8 @@ def eda_overview(df: pd.DataFrame, summary_lines: list):
     section("0. Resumen general del dataset")
 
     lines = [
-        "=" * 55,
-        "  EDA - F1 Data Warehouse (1950-2024)",
-        "=" * 55,
+        "EDA - F1 Data Warehouse (1950-2024)",
+        "",
         f"Total registros (piloto x carrera):  {len(df):,}",
         f"Temporadas cubiertas:                {df['year'].nunique()} ({int(df['year'].min())}–{int(df['year'].max())})",
         f"Circuitos únicos:                    {df['circuit_name'].nunique()}",
@@ -177,7 +176,7 @@ def eda_overview(df: pd.DataFrame, summary_lines: list):
         f"Registros con podio:                 {df['is_podium'].sum():,} ({df['is_podium'].mean() * 100:.1f}%)",
         f"Registros con pit stop data:         {df['total_stops'].notna().sum():,}",
         "",
-        "── Nulos por columna clave ──",
+        "Nulos por columna clave:",
     ]
     for col in [
         "grid_position",
@@ -787,7 +786,7 @@ def eda_ranking_analysis(ranking_df: pd.DataFrame, summary_lines: list):
 
     lines = [
         "",
-        "── Ranking Analysis ──",
+        "Ranking Analysis:",
         f"  Carreras analizadas:                {len(spearman_df):,}",
         f"  Spearman mediano (grilla->finish):   {median_sp:.3f}",
         f"  Spearman medio   (grilla->finish):   {mean_sp:.3f}",

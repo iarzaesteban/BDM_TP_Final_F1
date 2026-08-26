@@ -342,7 +342,7 @@ def tab_modelo():
 NAVBAR = dbc.Navbar(dbc.Container([
     html.Span("🏎", style={"fontSize": "1.6rem"}),
     dbc.NavbarBrand(
-        "F1 Data Warehouse  ·  BDM TP Final  ·  UNLu",
+        "F1 data warehouse - BDM TP Final",
         className="ms-2 fw-bold",
         style={"fontSize": "1rem"},
     ),

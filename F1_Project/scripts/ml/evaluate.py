@@ -8,7 +8,7 @@ import seaborn as sns
 from loguru import logger
 from scipy.stats import spearmanr
 from sklearn.metrics import (
-    roc_auc_score, f1_score, accuracy_score,
+    roc_auc_score, f1_score,
     confusion_matrix, roc_curve,
 )
 

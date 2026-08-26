@@ -1,19 +1,13 @@
--- =============================================================
---  DATA WAREHOUSE - Fórmula 1 (1950-2024)
---  TP Final Integrador - Bases de Datos Masivas
---  Universidad Nacional de Luján - Lic. en Sistemas de Información
---  Motor: PostgreSQL
---  Esquema: Estrella (Star Schema)
--- =============================================================
-
+-- DATA WAREHOUSE - Fórmula 1 (1950-2024)
+-- TP Final Integrador - Bases de Datos Masivas
+-- Universidad Nacional de Luján - Lic. en Sistemas de Información
+-- Motor: PostgreSQL - Esquema: Estrella (Star Schema)
 
 CREATE SCHEMA IF NOT EXISTS f1_dw;
 SET search_path TO f1_dw;
 
 
--- =============================================================
---  DIMENSIONES
--- =============================================================
+-- Dimensiones
 
 CREATE TABLE IF NOT EXISTS DimDate (
     date_key        SERIAL          PRIMARY KEY,
@@ -101,9 +95,7 @@ CREATE INDEX idx_dimrace_year   ON DimRace(year);
 CREATE INDEX idx_dimrace_circuit ON DimRace(circuit_key);
 
 
--- =============================================================
---  TABLAS DE HECHOS
--- =============================================================
+-- Tablas de hechos
 CREATE TABLE IF NOT EXISTS FactRaceResults (
     result_key          SERIAL          PRIMARY KEY,
 

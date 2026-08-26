@@ -1,14 +1,10 @@
--- =============================================================
---  F1 Data Warehouse - Vistas Analíticas
---  TP Final - Bases de Datos Masivas - UNLu
--- =============================================================
+-- F1 Data Warehouse - Vistas Analíticas
+-- TP Final - Bases de Datos Masivas - UNLu
 
 SET search_path TO f1_dw;
 
--- -------------------------------------------------------------
--- Vista 1: Análisis completo por carrera (ya incluida en DDL,
---          se recrea aquí con OR REPLACE para idempotencia)
--- -------------------------------------------------------------
+-- Vista 1: análisis completo por carrera (ya incluida en el DDL,
+-- se recrea aquí con OR REPLACE para idempotencia)
 CREATE OR REPLACE VIEW vw_race_analysis AS
 SELECT
     fr.result_id,
@@ -63,9 +59,7 @@ LEFT JOIN (
 COMMENT ON VIEW vw_race_analysis IS 'Vista analítica principal. Une todas las tablas del DW.';
 
 
--- -------------------------------------------------------------
 -- Vista 2: Resumen por piloto y temporada
--- -------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_driver_season AS
 SELECT
     dr.year,
@@ -88,9 +82,7 @@ GROUP BY dr.year, dv.full_name, dv.nationality, co.constructor_name;
 COMMENT ON VIEW vw_driver_season IS 'Resumen estadístico por piloto y temporada.';
 
 
--- -------------------------------------------------------------
 -- Vista 3: Resumen por constructor y temporada
--- -------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_constructor_season AS
 SELECT
     dr.year,
@@ -109,9 +101,7 @@ GROUP BY dr.year, co.constructor_name, co.nationality;
 COMMENT ON VIEW vw_constructor_season IS 'Resumen estadístico por constructor y temporada.';
 
 
--- -------------------------------------------------------------
 -- Vista 4: Análisis de qualifying vs resultado
--- -------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_qualifying_vs_race AS
 SELECT
     dr.year,
@@ -135,9 +125,7 @@ WHERE fq.quali_position IS NOT NULL;
 COMMENT ON VIEW vw_qualifying_vs_race IS 'Compara posición de clasificación con resultado de carrera.';
 
 
--- -------------------------------------------------------------
 -- Vista 5: Estadísticas de pit stops por carrera
--- -------------------------------------------------------------
 CREATE OR REPLACE VIEW vw_pitstop_strategy AS
 SELECT
     dr.year,

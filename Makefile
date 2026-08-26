@@ -1,16 +1,12 @@
-# =============================================================
-#  Makefile - F1 Data Warehouse
-#  TP Final - Bases de Datos Masivas - UNLu
-#
-#  Uso: make <comando>
-#  Ej:  make up, make down, make rebuild, etc
-# =============================================================
+# Makefile - F1 Data Warehouse
+# TP Final - Bases de Datos Masivas - UNLu
+# Uso: make <comando>. Ej: make up, make down, make rebuild, etc
 
-# --- Cargamos variables de entorno ---
+# Cargamos variables de entorno
 include .env
 export
 
-# --- Variables internas ---
+# Variables internas
 COMPOSE       = docker compose
 APP           = f1_app
 POSTGRES      = f1_postgres
@@ -82,7 +78,7 @@ logs-db:
 
 ## Estado de los contenedores
 status:
-	@echo "$(CYAN)── Estado de los contenedores ──$(RESET)"
+	@echo "$(CYAN)Estado de los contenedores:$(RESET)"
 	$(COMPOSE) ps
 
 
@@ -136,9 +132,9 @@ db-reset:
 
 ## Muestra tablas existentes y cantidad de filas
 db-info:
-	@echo "$(CYAN)── Tablas en f1_dw ──$(RESET)"
+	@echo "$(CYAN)Tablas en f1_dw:$(RESET)"
 	$(PSQL) -c "\dt f1_dw.*"
-	@echo "$(CYAN)── Conteo de filas ──$(RESET)"
+	@echo "$(CYAN)Conteo de filas:$(RESET)"
 	$(PSQL) -c "\
 		SELECT schemaname, tablename, \
 		       (xpath('/row/c/text()', query_to_xml(format('SELECT count(*) AS c FROM %I.%I', schemaname, tablename), false, true, '')))[1]::text::int AS row_count \
@@ -161,23 +157,23 @@ db-restore:
 	@echo "$(GREEN)✔ Restauración completada.$(RESET)"
 
 
-# Fases 
+
 
 ## ETL
-## Fase 1: limpiamos CSVs crudos
+## Limpiamos los CSVs crudos
 etl-clean:
-	@echo "$(GREEN)▶ Ejecutando ETL - Fase 1: Limpieza...$(RESET)"
+	@echo "$(GREEN)▶ Ejecutando ETL - limpieza...$(RESET)"
 	$(PYTHON) $(SCRIPTS_DIR)/etl/etl_clean.py
 	@echo "$(GREEN)✔ Limpieza completada. Archivos en data_processed/$(RESET)"
 
-## Fase 2: cargamos los datos limpios al DW
+## Cargamos los datos limpios al DW
 etl-load:
-	@echo "$(GREEN)▶ Ejecutando ETL - Fase 2: Carga al DW...$(RESET)"
+	@echo "$(GREEN)▶ Ejecutando ETL - carga al DW...$(RESET)"
 	$(PYTHON) $(SCRIPTS_DIR)/etl/etl_load_dw.py
 	@echo "$(GREEN)✔ Carga al DW completada.$(RESET)"
 	@make db-info
 
-## ETL completo: limpiamos + cargamos (fase 1 y 2)
+## ETL completo: limpiamos + cargamos
 etl-full: etl-clean etl-load
 	@echo "$(GREEN)✔ ETL completo finalizado.$(RESET)"
 
@@ -192,13 +188,13 @@ eda:
 
 ## ML
 
-## Fase 4: entrena los modelos predictivos
+## Entrena los modelos predictivos
 ml-train:
 	@echo "$(GREEN)▶ Entrenando modelos ML...$(RESET)"
 	$(PYTHON) $(SCRIPTS_DIR)/ml/train.py
 	@echo "$(GREEN)✔ Modelos entrenados. Artefactos en F1_Project/models/$(RESET)"
 
-## Fase 4: evalúa modelos y genera visualizaciones
+## Evalúa modelos y genera visualizaciones
 ml-evaluate:
 	@echo "$(GREEN)▶ Evaluando modelos ML...$(RESET)"
 	$(PYTHON) $(SCRIPTS_DIR)/ml/evaluate.py

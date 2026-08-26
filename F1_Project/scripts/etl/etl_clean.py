@@ -11,23 +11,6 @@ PROC_DIR = os.path.expanduser(f"{WORK_PATH}/data_processed")
 os.makedirs(PROC_DIR, exist_ok=True)
 
 files = glob.glob(os.path.join(RAW_DIR, "*.csv"))
-files
-
-races = pd.read_csv(os.path.join(RAW_DIR, "races.csv"))
-races.head()
-races.info()
-races.shape
-
-
-def resumen(df):
-    print("Shape:", df.shape)
-    print("\nColumns:\n", df.columns.tolist())
-    print("\nDtypes:\n", df.dtypes)
-    print("\nNulls:\n", df.isnull().sum().sort_values(ascending=False).head(20))
-    print("\nDuplicados:", df.duplicated().sum())
-
-
-resumen(races)
 
 
 def clean_cols(df):

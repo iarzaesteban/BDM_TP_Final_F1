@@ -1,7 +1,7 @@
 # BDM_TP_Final_F1
 
-# Análisis y Predicción del Rendimiento en la Fórmula 1
-### Data Warehouse · Aprendizaje Automático · Visualización Interactiva
+# Predicción del Ranking de Pilotos de Fórmula 1
+### Data Warehouse · Modelos de Clasificación · Visualización Interactiva
 
 **Trabajo Final Integrador — Bases de Datos Masivas (11088)**  
 Universidad Nacional de Luján · Departamento de Ciencias Básicas  

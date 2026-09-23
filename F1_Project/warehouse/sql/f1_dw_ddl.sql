@@ -91,8 +91,8 @@ CREATE TABLE IF NOT EXISTS DimRace (
 );
 COMMENT ON TABLE DimRace IS 'Evento de carrera. Conecta con dimensión temporal y de circuito.';
 
-CREATE INDEX idx_dimrace_year   ON DimRace(year);
-CREATE INDEX idx_dimrace_circuit ON DimRace(circuit_key);
+CREATE INDEX IF NOT EXISTS idx_dimrace_year   ON DimRace(year);
+CREATE INDEX IF NOT EXISTS idx_dimrace_circuit ON DimRace(circuit_key);
 
 
 -- Tablas de hechos
@@ -127,11 +127,11 @@ CREATE TABLE IF NOT EXISTS FactRaceResults (
 COMMENT ON TABLE FactRaceResults IS
   'Tabla de hechos principal. Granularidad: piloto x carrera. Incluye columnas derivadas para ML.';
 
-CREATE INDEX idx_frr_race       ON FactRaceResults(race_key);
-CREATE INDEX idx_frr_driver     ON FactRaceResults(driver_key);
-CREATE INDEX idx_frr_constructor ON FactRaceResults(constructor_key);
-CREATE INDEX idx_frr_podium     ON FactRaceResults(is_podium);
-CREATE INDEX idx_frr_date       ON FactRaceResults(date_key);
+CREATE INDEX IF NOT EXISTS idx_frr_race       ON FactRaceResults(race_key);
+CREATE INDEX IF NOT EXISTS idx_frr_driver     ON FactRaceResults(driver_key);
+CREATE INDEX IF NOT EXISTS idx_frr_constructor ON FactRaceResults(constructor_key);
+CREATE INDEX IF NOT EXISTS idx_frr_podium     ON FactRaceResults(is_podium);
+CREATE INDEX IF NOT EXISTS idx_frr_date       ON FactRaceResults(date_key);
 
 
 CREATE TABLE IF NOT EXISTS FactQualifying (
@@ -159,8 +159,8 @@ CREATE TABLE IF NOT EXISTS FactQualifying (
 COMMENT ON TABLE FactQualifying IS
   'Tiempos de clasificación. Clave para el modelo predictivo: grilla de largada vs resultado.';
 
-CREATE INDEX idx_fq_race    ON FactQualifying(race_key);
-CREATE INDEX idx_fq_driver  ON FactQualifying(driver_key);
+CREATE INDEX IF NOT EXISTS idx_fq_race    ON FactQualifying(race_key);
+CREATE INDEX IF NOT EXISTS idx_fq_driver  ON FactQualifying(driver_key);
 
 
 
@@ -179,8 +179,8 @@ CREATE TABLE IF NOT EXISTS FactPitStops (
 COMMENT ON TABLE FactPitStops IS
   'Estrategia de pit stops. Permite analizar número de paradas y tiempos por carrera.';
 
-CREATE INDEX idx_fps_race   ON FactPitStops(race_key);
-CREATE INDEX idx_fps_driver ON FactPitStops(driver_key);
+CREATE INDEX IF NOT EXISTS idx_fps_race   ON FactPitStops(race_key);
+CREATE INDEX IF NOT EXISTS idx_fps_driver ON FactPitStops(driver_key);
 
 
 

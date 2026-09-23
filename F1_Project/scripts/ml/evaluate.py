@@ -18,16 +18,16 @@ ML_DIR   = BASE_DIR / "data_processed" / "ml"
 OUT_DIR  = ML_DIR / "outputs"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-BG      = "#0d0d0d"
+BG      = "#ffffff"
 F1_RED  = "#e10600"
 F1_GOLD = "#ffd700"
-F1_WHT  = "#f5f5f5"
+TXT  = "#1a1a1a"
 
 MODEL_COLORS = {
-    "Logistic Regression": "#00d4ff",
+    "Logistic Regression": "#0086b3",
     "Random Forest":       F1_GOLD,
     "SVM RBF":             "#ff6b35",
-    "XGBoost":             "#00ff88",
+    "XGBoost":             "#2ca02c",
 }
 MODEL_NAMES = ["Logistic Regression", "Random Forest", "SVM RBF", "XGBoost"]
 SAFE_NAMES  = ["logistic_regression",  "random_forest",  "svm_rbf",  "xgboost"]
@@ -35,12 +35,12 @@ SAFE_NAMES  = ["logistic_regression",  "random_forest",  "svm_rbf",  "xgboost"]
 plt.rcParams.update({
     "figure.facecolor": BG,
     "axes.facecolor":   BG,
-    "axes.edgecolor":   F1_WHT,
-    "text.color":       F1_WHT,
-    "xtick.color":      F1_WHT,
-    "ytick.color":      F1_WHT,
-    "axes.labelcolor":  F1_WHT,
-    "grid.color":       "#333333",
+    "axes.edgecolor":   TXT,
+    "text.color":       TXT,
+    "xtick.color":      TXT,
+    "ytick.color":      TXT,
+    "axes.labelcolor":  TXT,
+    "grid.color":       "#dddddd",
     "grid.alpha":       0.5,
     "font.family":      "sans-serif",
 })
@@ -100,7 +100,7 @@ def plot_roc_curves(preds_df, y_true):
         "Curvas ROC — Predicción de Podio F1\nTest: temporadas 2022–2024",
         fontsize=13, pad=14,
     )
-    ax.legend(loc="lower right", fontsize=9.5, facecolor="#1a1a1a", edgecolor="#444")
+    ax.legend(loc="lower right", fontsize=9.5, facecolor="#ffffff", edgecolor="#cccccc")
     ax.grid(True, alpha=0.3)
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
@@ -134,12 +134,12 @@ def plot_confusion_matrices(preds_df, y_true):
         for r in range(2):
             for c in range(2):
                 ax.text(c + 0.5, r + 0.72, f"n={cm[r, c]:,}",
-                        ha="center", va="center", color=F1_WHT, fontsize=8.5)
+                        ha="center", va="center", color=TXT, fontsize=8.5)
 
         auc = roc_auc_score(y_true, y_prob)
         f1  = f1_score(y_true, y_pred, zero_division=0)
         ax.set_title(f"{name}\nROC-AUC={auc:.4f}   F1={f1:.4f}",
-                     color=F1_WHT, fontsize=11, pad=8)
+                     color=TXT, fontsize=11, pad=8)
         ax.set_xlabel("Predicho", fontsize=10)
         ax.set_ylabel("Real", fontsize=10)
         ax.set_xticklabels(["No Podio", "Podio"], fontsize=9)
@@ -207,17 +207,17 @@ def plot_spearman_distribution(preds_df):
         ax.set_facecolor(BG)
 
         ax.hist(sp_df["spearman"], bins=30, color=color, alpha=0.78, edgecolor="#333")
-        ax.axvline(median,   color=F1_WHT, lw=2.2, ls="-",
+        ax.axvline(median,   color=TXT, lw=2.2, ls="-",
                    label=f"Mediana modelo: {median:.4f}")
         ax.axvline(BASELINE, color=F1_RED,  lw=2.2, ls="--",
                    label=f"Baseline (grilla): {BASELINE}")
 
         tag  = "Supera baseline" if median > BASELINE else "No supera baseline"
-        tcol = "#00ff88" if median > BASELINE else F1_RED
+        tcol = "#1b8a3a" if median > BASELINE else F1_RED
         ax.set_title(f"{name}\n{tag}", color=tcol, fontsize=11, pad=8)
         ax.set_xlabel("Spearman por carrera", fontsize=10)
         ax.set_ylabel("Frecuencia", fontsize=10)
-        ax.legend(fontsize=8.5, facecolor="#1a1a1a", edgecolor="#444")
+        ax.legend(fontsize=8.5, facecolor="#ffffff", edgecolor="#cccccc")
         ax.grid(True, alpha=0.3)
 
     fig.suptitle(
@@ -242,9 +242,9 @@ def plot_metrics_comparison(metrics_data):
     fig, ax = plt.subplots(figsize=(11, 6), facecolor=BG)
     ax.set_facecolor(BG)
 
-    b1 = ax.bar(x - width, aucs,   width, label="ROC-AUC",         color="#00d4ff", alpha=0.85, edgecolor="#333")
+    b1 = ax.bar(x - width, aucs,   width, label="ROC-AUC",         color="#0086b3", alpha=0.85, edgecolor="#333")
     b2 = ax.bar(x,         f1s,    width, label="F1-Score",         color=F1_GOLD,  alpha=0.85, edgecolor="#333")
-    b3 = ax.bar(x + width, spears, width, label="Spearman mediano", color="#00ff88", alpha=0.85, edgecolor="#333")
+    b3 = ax.bar(x + width, spears, width, label="Spearman mediano", color="#2ca02c", alpha=0.85, edgecolor="#333")
 
     ax.axhline(BASELINE, color=F1_RED, lw=1.5, ls="--",
                label=f"Baseline grilla (Spearman = {BASELINE})")
@@ -264,7 +264,8 @@ def plot_metrics_comparison(metrics_data):
     ax.set_xticks(x)
     ax.set_xticklabels(names, fontsize=10)
     ax.set_ylim(0, 1.05)
-    ax.legend(fontsize=9, facecolor="#1a1a1a", edgecolor="#444")
+    ax.legend(fontsize=9, facecolor="#ffffff", edgecolor="#cccccc",
+               loc="upper center", bbox_to_anchor=(0.5, -0.15), ncol=4)
     ax.grid(True, axis="y", alpha=0.3)
 
     plt.tight_layout()
@@ -313,7 +314,7 @@ def plot_spearman_over_time(preds_df):
         "(Línea suavizada: mediana móvil de 5 carreras)",
         fontsize=12, pad=12,
     )
-    ax.legend(fontsize=9.5, facecolor="#1a1a1a", edgecolor="#444")
+    ax.legend(fontsize=9.5, facecolor="#ffffff", edgecolor="#cccccc")
     ax.grid(True, alpha=0.3)
     ax.set_ylim(-0.25, 1.05)
 

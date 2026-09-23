@@ -29,20 +29,20 @@ os.makedirs(OUT_DIR, exist_ok=True)
 plt.rcParams.update(
     {
         "figure.dpi": 150,
-        "figure.facecolor": "#0f0f0f",
-        "axes.facecolor": "#1a1a1a",
-        "axes.edgecolor": "#444",
-        "axes.labelcolor": "#e0e0e0",
-        "axes.titlecolor": "#ffffff",
+        "figure.facecolor": "#ffffff",
+        "axes.facecolor": "#ffffff",
+        "axes.edgecolor": "#333333",
+        "axes.labelcolor": "#1a1a1a",
+        "axes.titlecolor": "#1a1a1a",
         "axes.titlesize": 13,
         "axes.labelsize": 11,
-        "xtick.color": "#aaaaaa",
-        "ytick.color": "#aaaaaa",
-        "text.color": "#e0e0e0",
-        "grid.color": "#2e2e2e",
+        "xtick.color": "#333333",
+        "ytick.color": "#333333",
+        "text.color": "#1a1a1a",
+        "grid.color": "#dddddd",
         "grid.linestyle": "--",
-        "legend.facecolor": "#1a1a1a",
-        "legend.edgecolor": "#444",
+        "legend.facecolor": "#ffffff",
+        "legend.edgecolor": "#cccccc",
         "font.family": "DejaVu Sans",
     }
 )
@@ -50,7 +50,7 @@ plt.rcParams.update(
 F1_RED = "#e10600"
 F1_GOLD = "#ffd700"
 F1_SILVER = "#c0c0c0"
-F1_WHITE = "#f5f5f5"
+TXT_DARK = "#1a1a1a"
 PALETTE = [
     F1_RED,
     "#00d2be",
@@ -235,7 +235,7 @@ def eda_podium_factors(df: pd.DataFrame):
             ha="center",
             va="bottom",
             fontsize=9,
-            color=F1_WHITE,
+            color=TXT_DARK,
         )
     save(fig, "01a_podio_por_grilla")
 
@@ -272,7 +272,7 @@ def eda_podium_factors(df: pd.DataFrame):
             f"{val:.1f}%",
             va="center",
             fontsize=8,
-            color=F1_WHITE,
+            color=TXT_DARK,
         )
     save(fig, "01b_podio_por_constructor")
 
@@ -384,9 +384,9 @@ def eda_dominio_decadas(df: pd.DataFrame):
     tbl.auto_set_font_size(False)
     tbl.set_fontsize(10)
     for (r, c), cell in tbl.get_celld().items():
-        cell.set_facecolor("#1a1a1a" if r > 0 else F1_RED)
-        cell.set_edgecolor("#444")
-        cell.set_text_props(color=F1_WHITE)
+        cell.set_facecolor("#f5f5f5" if r > 0 else F1_RED)
+        cell.set_edgecolor("#cccccc")
+        cell.set_text_props(color="#ffffff" if r == 0 else TXT_DARK)
     save(fig, "02b_top_piloto_por_decada")
 
     # Evolución de puntos por temporada top 5 constructores
@@ -437,7 +437,7 @@ def eda_dominio_decadas(df: pd.DataFrame):
             str(val),
             va="center",
             fontsize=9,
-            color=F1_WHITE,
+            color=TXT_DARK,
         )
     save(fig, "02d_top10_pilotos_victorias")
 
@@ -524,7 +524,7 @@ def eda_grilla_vs_resultado(df: pd.DataFrame, quali_df: pd.DataFrame):
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:.0f}%"))
     ax.grid(axis="y")
     for i, v in enumerate(conv.values):
-        ax.text(i, v + 0.5, f"{v:.1f}%", ha="center", fontsize=9, color=F1_WHITE)
+        ax.text(i, v + 0.5, f"{v:.1f}%", ha="center", fontsize=9, color=TXT_DARK)
     save(fig, "03b_conversion_grilla_resultado")
 
     fig, axes = plt.subplots(1, 2, figsize=(14, 6))
@@ -704,7 +704,7 @@ def eda_pit_stops(df: pd.DataFrame, pits_df: pd.DataFrame):
             f"{val:.1f}%",
             ha="center",
             fontsize=9,
-            color=F1_WHITE,
+            color=TXT_DARK,
         )
     save(fig, "04d_podio_vs_cantidad_stops")
 
@@ -820,7 +820,7 @@ def eda_ranking_analysis(ranking_df: pd.DataFrame, summary_lines: list):
         linestyle="--",
         label=f"Mediana: {median_sp:.3f}",
     )
-    ax.axvline(0, color=F1_SILVER, linewidth=1, linestyle=":", alpha=0.6)
+    ax.axvline(0, color="#888888", linewidth=1, linestyle=":", alpha=0.6)
     ax.set_xlabel("Coeficiente de Spearman")
     ax.set_ylabel("Cantidad de carreras")
     ax.legend(fontsize=10)
@@ -889,7 +889,7 @@ def eda_ranking_analysis(ranking_df: pd.DataFrame, summary_lines: list):
         ax.set_title(title)
         ax.grid(axis="x")
         ax.set_xlim(-0.2, 1.05)
-        ax.axvline(0, color=F1_SILVER, linewidth=0.8, linestyle=":")
+        ax.axvline(0, color="#888888", linewidth=0.8, linestyle=":")
     save(fig, "06c_carreras_predecibles")
 
     print("Seccion 6 completada.")

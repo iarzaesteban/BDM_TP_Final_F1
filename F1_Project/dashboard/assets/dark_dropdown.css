@@ -1,0 +1,47 @@
+/* dcc.Dropdown no hereda el tema DARKLY de bootstrap, el menu desplegado
+   queda con fondo blanco y texto gris claro. Forzamos colores oscuros. */
+
+.Select-control {
+    background-color: #1a1a1a !important;
+    border-color: #444 !important;
+    color: #f5f5f5 !important;
+}
+
+.Select-menu-outer {
+    background-color: #252525 !important;
+    border: 1px solid #444 !important;
+}
+
+.VirtualizedSelectOption {
+    background-color: #252525 !important;
+    color: #f5f5f5 !important;
+}
+
+.VirtualizedSelectFocusedOption {
+    background-color: #e10600 !important;
+    color: #f5f5f5 !important;
+}
+
+.Select-value-label {
+    color: #f5f5f5 !important;
+}
+
+.Select-placeholder {
+    color: #888888 !important;
+}
+
+.Select--single > .Select-control .Select-value {
+    color: #f5f5f5 !important;
+}
+
+.Select-input > input {
+    color: #f5f5f5 !important;
+}
+
+.Select-arrow {
+    border-color: #f5f5f5 transparent transparent !important;
+}
+
+.is-open > .Select-control {
+    background-color: #1a1a1a !important;
+}
